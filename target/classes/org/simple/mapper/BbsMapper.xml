@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace ="org.simple.mapper.BbsMapper">
+
+<select id="bnoVal">
+	select seq_bbs.nextval from dual
+</select>
+
+<insert id="create">
+	<selectKey keyProperty="bno" order="BEFORE" resultType="int">
+		select seq_bbs.nextval from dual
+	</selectKey>
+	insert into tbl_bbs(bno, id, name, adress, idNum) values(#{bno}, #{id}, #{name}, #{adress}, #{idNum})
+</insert>
+
+<select id="read" resultType="org.simple.domain.BbsVO">
+	select * from tbl_bbs where bno = #{bno}
+</select>
+
+<update id="update">
+	update tbl_bbs set id=#{id}, name=#{name}, adress=#{adress} where bno = #{bno}
+</update>
+
+<delete id="delete">
+ delete tbl_bbs where bno=#{bno}
+</delete>
+
+<select id="list" resultType="org.simple.domain.BbsVO">
+	select * from tbl_bbs order by bno desc
+</select>
+
+
+</mapper>

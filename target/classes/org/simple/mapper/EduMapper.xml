@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace ="org.simple.mapper.EduMapper">
+
+<insert id="insert">
+
+	insert into tbl_edu (eno, sname, major, startdate, enddate, division, bno) 
+	values(seq_edu.nextval, #{sName}, #{major}, #{startDate}, #{endDate}, #{division}, #{bno})
+</insert>
+
+<select id="findByBno" resultType="org.simple.domain.EduVO">
+select * from tbl_edu where bno = #{bno}
+</select>
+
+</mapper>

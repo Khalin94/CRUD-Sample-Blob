@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace ="org.simple.mapper.FileMapper">
+
+<insert id="insert">
+insert into tbl_file (fno, bno, filename, uuid, path) values (seq_file.nextval, #{bno}, #{filename}, #{uuid}, #{path})
+</insert>
+
+<select id="findByBno" resultType="org.simple.domain.FileVO">
+select * from tbl_file where bno = #{bno}
+</select>
+
+
+
+</mapper>
