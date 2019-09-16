@@ -21,6 +21,9 @@
   	.noBorder{
   		border : 0px;
   	}
+  	.basicInfo{
+  		width : 300px;
+  	}
   </style>
 </head>
 
@@ -43,24 +46,24 @@
 	<thead>
 		<tr>
 			<th>id</th>
-			<td><input name="id"></td>
+			<td><input class="basicInfo" name="id" placeholder="id를 입력하세요."></td>
 		</tr>
 		<tr>
 			<th>name</th>
-			<td><input name="name"></td>
+			<td><input class="basicInfo"  name="name" placeholder="이름을 입력하세요."></td>
 		</tr>
 		<tr>
 			<th>Address</th>
-			<td><input name="adress"></td>
+			<td><input class="basicInfo"  name="adress" placeholder="주소를 입력하세요."></td>
 		</tr>
 		<tr>
 			<th>주민등록번호</th>
-			<td><input type="password" name="idNum" ></td>
+			<td><input class="basicInfo"  type="password" name="idNum" placeholder="주민등록번호 13자리를 입력하세요."></td>
 		</tr>
  		<tr>
  			<th>사진</th>
 			<td><input type="file" name="picture"></td>
-			<td><img src="#" id="image"></td>
+			<td><img src="#" id="image" width="195" height="254"></td>
 		</tr>
 	</thead>
  	
@@ -235,10 +238,10 @@ out.println("<option selected=\"selected\">선택</option>");
 
 
 <script type="text/javascript">
-
+$("#image").hide();
 
 $(document).ready(function(){
-
+  	
 	function readUrl(input){
 		if(input.files && input.files[0]){
 			var reader = new FileReader();
@@ -248,6 +251,7 @@ $(document).ready(function(){
 			}
 			
 			reader.readAsDataURL(input.files[0]);
+			$("#image").show();
 			
 		}
 	}
@@ -337,6 +341,14 @@ $(document).ready(function(){
 		
 		$(".eduLi").append(str);
 		
+		$("input[name='uniName']").val('');
+		$("input[name='uniMajor']").val('');
+		$("select[name='uniStartYear']").val('선택');
+		$("select[name='uniStartMonth']").val('선택');
+		$("select[name='uniStartDay']").val('선택');
+		$("select[name='uniEndYear']").val('선택');
+		$("select[name='uniEndMonth']").val('선택');
+		$("select[name='uniEndDay']").val('선택');
 
 	});
 	
@@ -366,6 +378,10 @@ $(document).ready(function(){
 		
 //		var tableForm = $(".tableForm");
 		
+		if(idNum.length < 13){
+			alert("잘못된 주민등록번호");
+			return false;
+		}
 		
 		console.log(ch);
 		if(ch == 1 || ch == 2){

@@ -1,5 +1,8 @@
 package org.simple.controller;
 
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,6 +12,8 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FileUtils;
 import org.simple.domain.BbsVO;
@@ -147,36 +152,37 @@ public class HomeController {
 		}
 
 		// file
-		try {
-			// Iterator<String> iter = file.getFileNames();
+		
+		if (file.getFile("picture").getSize() != 0) {
+			try {
+				// Iterator<String> iter = file.getFileNames();
 //				MultipartFile mpf = file.getFile(iter.next());
-			MultipartFile mpf = file.getFile("picture");
+				MultipartFile mpf = file.getFile("picture");
+				String filename = mpf.getOriginalFilename();
 
-			String filename = mpf.getOriginalFilename();
+				System.out.println("filename : " + filename + " Path : " + PATH);
+				System.out.println("fileSize : " + file.getFile("picture").getSize());
+				
+				File targetfile = new File(PATH + filename);
 
-			System.out.println("filename : " + filename);
-			System.out.println("paht : " + PATH);
-			
-			File targetfile =  new File(PATH+filename);
-			
-			InputStream fileStream = mpf.getInputStream();
-			FileUtils.copyInputStreamToFile(fileStream, targetfile);
-			
-			fileVo.setFilename(filename);
-			fileVo.setPath(PATH);
+				InputStream fileStream = mpf.getInputStream();
+				FileUtils.copyInputStreamToFile(fileStream, targetfile);
 
-			vo.setFileVo(fileVo);
+				fileVo.setFilename(filename);
+				fileVo.setPath(PATH);
 
-			fileVo.setBno(vo.getBno());
-			System.out.println("file Vo getfileName Length : " + fileVo.getFilename().length());
-			System.out.println(fileVo.getPath());
+				vo.setFileVo(fileVo);
 
-			if (fileVo.getFilename().length() != 0) {
-				fileService.insert(fileVo);
+				fileVo.setBno(vo.getBno());
+				System.out.println("file Vo getfileName Length : " + fileVo.getFilename().length());
+
+				if (fileVo.getFilename().length() != 0) {
+					fileService.insert(fileVo);
+				}
+			} catch (Exception e) {
+				System.out.println("controller file exception!");
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			System.out.println("controller file exception!");
-			e.printStackTrace();
 		}
 
 		// edu
@@ -197,22 +203,22 @@ public class HomeController {
 
 		return "redirect:/bbsList";
 	}
-/*
-	private static void imageResize(MultipartFile multipartFile) throws IOException {
-		File file = new File(multipartFile.getOriginalFilename());
-		multipartFile.transferTo(file);
 
-		Image image = ImageIO.read(file);
-
-		Image resizeImage = image.getScaledInstance(295, 354, Image.SCALE_SMOOTH);
-		
-		String filename = multipartFile.getOriginalFilename();
-		String ext = filename.substring(filename.lastIndexOf(".")+1);
-		
-		BufferedImage newImage = new BufferedImage(295, 354, BufferedImage.TYPE_INT_RGB);
-		ImageIO.write(newImage, ext, PATH+filename);
-	}
-*/
+	/*
+	 * private static void imageResize(MultipartFile multipartFile) throws
+	 * IOException { File file = new File(multipartFile.getOriginalFilename());
+	 * multipartFile.transferTo(file);
+	 * 
+	 * Image image = ImageIO.read(file);
+	 * 
+	 * Image resizeImage = image.getScaledInstance(295, 354, Image.SCALE_SMOOTH);
+	 * 
+	 * String filename = multipartFile.getOriginalFilename(); String ext =
+	 * filename.substring(filename.lastIndexOf(".")+1);
+	 * 
+	 * BufferedImage newImage = new BufferedImage(295, 354,
+	 * BufferedImage.TYPE_INT_RGB); ImageIO.write(newImage, ext, PATH+filename); }
+	 */
 	@GetMapping("/bbsList")
 	public String getList(Model model) {
 		model.addAttribute("list", service.getAll());
@@ -247,6 +253,17 @@ public class HomeController {
 		FileVO vo = fileService.findByBno(bno);
 
 		File file = new File(PATH + vo.getFilename());
+		/*
+		 * Image image = ImageIO.read(file); Image resizeImage =
+		 * image.getScaledInstance(295 , 354, Image.SCALE_SMOOTH);
+		 * 
+		 * BufferedImage newImage = new BufferedImage(295, 354,
+		 * BufferedImage.TYPE_INT_RGB); Graphics g = newImage.getGraphics();
+		 * g.drawImage(resizeImage, 0, 0, null); g.dispose();
+		 * 
+		 * ImageIO.write(newImage, "png", new File(vo.getPath()+vo.getFilename()));
+		 */
+
 		FileInputStream fis = new FileInputStream(file);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		int data = 0;

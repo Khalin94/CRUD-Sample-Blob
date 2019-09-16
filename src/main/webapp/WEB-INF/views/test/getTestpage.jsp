@@ -20,13 +20,11 @@ preview : <input name="pdf" type="image" src="/preview?tno=${tno }"> <br>
 <c:if test="${vo.ext eq 'png' or vo.ext eq 'jpg' or vo.ext eq 'jpeg'}">
 view Image : <img alt="${vo.filename }" src="/viewImage?tno=${tno }"><br>
 </c:if>
-<c:if test="${vo.ext ne 'pdf' }">
-download : <a href="/download?tno=${tno }">download</a>
-</c:if>
 <br>
 <c:if test="${vo.ext eq 'pdf' }">
-preview use embed : <embed id="pdfFile" src="/resources/img/adobe-pdf-icon.png" />
+preview use embed : <embed id="pdfFile" src="/resources/img/adobe-pdf-icon.png" /><br>
 </c:if>
+download : <a href="/download?tno=${tno }">${vo.filename }</a>
 <ul>
 	<li>
 	</li>

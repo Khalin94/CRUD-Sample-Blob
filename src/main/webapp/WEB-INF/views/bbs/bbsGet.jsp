@@ -55,7 +55,7 @@
 		<td>사진</td>
 		
 		<td>
-			<img src="/ViewImage?bno=${bbs.bno }" id="image">
+			<img src="/ViewImage?bno=${bbs.bno }" id="image" width="195" height="254">
 		</td>
 		
 		<td>
